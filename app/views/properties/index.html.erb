@@ -1,0 +1,64 @@
+<% if @properties.present? %>
+
+  <div style='display:flex; justify-content:center;padding:20px;'>
+
+    <div>
+
+      <h1 style='margin-bottom:40px'>Your Owned Properties (<%= @properties.length %>)</h1>
+
+      <div style='display:flex; gap:20px; flex-wrap: wrap;'>
+
+        <% @properties.each do |property| %>
+
+          <div class='card mb-3 shadow-sm rounded' style='max-width:440px;'>
+            <div class='card-body bg-light' style='min-height:400px;'>
+              <p style='font-size:1.5rem;'><%= property.name %></p>
+              <p><%= property.address %></p>
+              <p><%= property.jurisdiction %></p>
+
+              <h3> Your Documents </h3>
+
+              <% if property.documents.attached? %>
+                <div style='display:flex; flex-direction:column; gap:20px;' >
+                  <% property.documents.each do |document| %>
+                    <div>
+                      <%= link_to document.filename.to_s, url_for(document), target: "_blank" %>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <p>No documents uploaded yet.</p>
+              <% end %>
+
+            </div>
+
+            <div class='card-footer bg-white'>
+              <div style='display:flex; gap:10px;'>
+                <%= link_to property_path(property) do %>
+                  <i class="fas fa-file-upload"></i> Add More Documents
+                <% end %>
+              <%= link_to edit_property_path(property) do %>
+                <i class="fas fa-edit"></i> Edit Property
+              <% end %>
+              <%= link_to "#todo" do %>
+                <i class="fas fa-robot"></i> Launch AI Assistant
+              <% end %>
+              </div>
+            </div>
+
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+
+  </div>
+
+<% else %>
+  <div style='display:flex; justify-content:center;align-items:center; height:80vh;'>
+    <div style='text-align:center;'>
+      <h1 class='mb-4' >Welcome, let's get started </h1>
+      <%= link_to "Add your first property", new_property_path, class: "btn btn-primary btn-lg" %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+<div class='bg-light mx-auto' style='max-width:600px;padding:20px;margin-top:20px;'>
+
+  <h2>New Property</h2>
+
+  <%= simple_form_for @property, local: true do |f| %>
+    <%= f.input :name %>
+    <%= f.input :address %>
+    <%= f.input :jurisdiction %>
+
+    <div class='mb-4' style='padding:40px;'>
+      <h2> Document Uploads </h2>
+      <p> Please upload all relevant documents related to your property— share agreement, contracts, building-related— anything relevant to our creating advice </p>
+
+      <div style='text-align:center;'>
+        <%= f.file_field :documents, multiple: true%>
+      </div>
+    </div>
+
+
+
+    <div style='display:flex; justify-content:space-between;align-items:center;margin-top:40px;'>
+      <%= f.button :submit, "Add Property!", class: "btn-primary" %>
+      <%= link_to "Go Back", properties_path %>
+    </div>
+  <% end %>
+
+
+
+</div>

@@ -75,3 +75,5 @@ group :test do
 end
 
 gem 'ruby-openai'
+
+gem "aws-sdk-s3" # documents....
