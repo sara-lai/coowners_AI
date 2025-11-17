@@ -10,3 +10,68 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+
+
+
+/* Auth pages (Sign-Up & Sign-In) */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+  padding: 2rem;
+  background: #f9fafb;
+}
+
+.auth-card {
+  background: #ffffff;
+  max-width: 420px;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.auth-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #0a0a0a;
+}
+
+.auth-input {
+  margin-bottom: 1rem;
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+}
+
+.auth-btn {
+  width: 100%;
+  background: #1e5799;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+.auth-btn:hover {
+  background: #163f75;
+}
+
+.auth-footer {
+  margin-top: 1.5rem;
+}
+
+.auth-link {
+  color: #1e5799;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}

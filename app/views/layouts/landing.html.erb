@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>CoownersAi</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoOwnersAI - Your AI-Powered Legal Navigator for Shared Properties</title>
+  <meta name="description" content="From Bali to Belgium, navigate co-ownership complexities with AI-powered legal insights for shared properties.">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -13,11 +16,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-  </head>
+</head>
 
-  <body><%= render "shared/navbar" %>
-<%= render "shared/flashes" %>
+  <body>
+    <%= render "shared/landing_navbar" %>
 
     <%= yield %>
+
+     <%= render "shared/footer" %>
   </body>
 </html>

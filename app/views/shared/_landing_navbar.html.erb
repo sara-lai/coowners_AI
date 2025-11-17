@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white shadow-sm" style="background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px);">
+  <div class="container-xl">
+    <a class="navbar-brand logo d-flex align-items-center gap-2" href="/">
+      CoOwners<span class="ai">AI</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item me-3">
+          <%= link_to "Explore Features", "#features", class: "nav-link text-dark fw-medium" %>
+        </li>
+        <% if user_signed_in? %>
+          <li class="nav-item me-3">
+            <%= link_to "Dashboard", '#', class: "nav-link text-dark fw-medium" %> <!-- Adjust path as needed -->
+          </li>
+          <li class="nav-item">
+            <%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-dark rounded-pill px-4" %>
+          </li>
+        <% else %>
+          <li class="nav-item me-3">
+            <%= link_to "Sign In", new_user_session_path, class: "btn btn-outline-dark rounded-pill px-4" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Sign Up", new_user_registration_path, class: "nav-cta btn btn-dark rounded-pill px-4" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

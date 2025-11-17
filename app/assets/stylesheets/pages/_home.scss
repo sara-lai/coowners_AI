@@ -1,1 +1,258 @@
-// Specific CSS for your home-page
+// Variables
+$color-dark: #0a0a0a;
+$color-charcoal: #1a1a1a;
+$color-slate: #2a2a2a;
+$color-silver: #e8e8e8;
+$color-white: #ffffff;
+$color-accent: #4a90e2;
+$color-gold: #d4af37;
+
+$font-display: 'Playfair Display', serif;
+$font-body: 'Inter', sans-serif;
+
+// Global Styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-body;
+  line-height: 1.6;
+  color: $color-charcoal;
+  overflow-x: hidden;
+}
+
+// Navigation
+.logo {
+  font-family: $font-display;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $color-dark;
+  letter-spacing: -0.5px;
+
+  .ai {
+    color: $color-accent;
+    font-weight: 600;
+  }
+}
+
+.nav-link {
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $color-accent !important;
+  }
+}
+
+.nav-cta {
+  border: 2px solid $color-dark;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: transparent !important;
+    color: $color-dark !important;
+  }
+}
+
+// Hero
+.hero-image img {
+  transition: transform 0.4s ease;
+}
+
+.hero-cta-group {
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.cta-primary {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+  }
+
+  i {
+    &::before {
+      content: '\f061'; // fa-arrow-right
+    }
+  }
+}
+
+.cta-secondary {
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $color-white !important;
+    color: $color-dark !important;
+  }
+
+  i {
+    &::before {
+      content: '\f14e'; // fa-compass
+    }
+  }
+}
+
+// Features
+.use-case-card {
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+    .card-img {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// How It Works - improved contrast
+.step-description {
+  color: $color-white !important;
+}
+
+// CTA Large
+.cta-large {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  i {
+    &::before {
+      content: '\f135'; // fa-rocket
+    }
+  }
+}
+
+// Footer
+.footer-links a {
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $color-accent !important;
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 3.5rem !important;
+  }
+
+  .hero-description {
+    font-size: 1.3rem !important;
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: auto !important;
+    min-height: 600px !important;
+  }
+
+  .hero-background {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-title {
+    font-size: 2.5rem !important;
+  }
+
+  .hero-description {
+    font-size: 1.1rem !important;
+  }
+
+  .section-title {
+    font-size: 2.2rem !important;
+  }
+
+  .location-badge {
+    font-size: 0.85rem !important;
+    padding: 0.75rem 1.5rem !important;
+  }
+
+  .cta-section-title {
+    font-size: 2.5rem !important;
+  }
+}
+
+
+/* Perfect square cards */
+.square-card {
+  aspect-ratio: 1 / 1;        /* makes cards perfectly square */
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+/* Hover polish */
+.use-case-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 28px rgba(0,0,0,0.25);
+}
+
+
+/* Compact square cards */
+.card-wrapper {
+  max-width: 320px;     /* smaller size */
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+  transition: transform .25s ease;
+}
+
+/* Optional hover lift */
+.card-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+/* Always cover image */
+.square-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Stronger readable overlay */
+.overlay-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.85),
+    rgba(0,0,0,0.35)
+  );
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); // Subtle scholarly depth
+
+  .ai {
+    background: linear-gradient(135deg, #4a90e2, #9062e2); // Sleek AI gradient
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+  }
+
+  &:hover {
+    .ai {
+      opacity: 0.9; // Subtle hover for interactivity
+    }
+  }
+}

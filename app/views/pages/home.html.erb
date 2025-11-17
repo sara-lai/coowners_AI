@@ -1,2 +1,158 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<section class="hero d-flex align-items-center position-relative overflow-hidden" style="margin-top: 80px; min-height: 700px; height: 90vh;">
+  <div class="hero-background position-absolute top-0 start-0 end-0 bottom-0 d-grid" style="grid-template-columns: repeat(2, 1fr); gap: 0rem;">
+    <div class="hero-image position-relative overflow-hidden">
+      <div class="position-absolute top-0 start-0 end-0 bottom-0" style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(74, 144, 226, 0.3)); z-index: 1;"></div>
+      <img src="https://images.unsplash.com/photo-1742420855359-e8ce210bee77?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIzfHx8ZW58MHx8fHx8" alt="Belgian Historic Property" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="hero-image position-relative overflow-hidden">
+      <div class="position-absolute top-0 start-0 end-0 bottom-0" style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(74, 144, 226, 0.3)); z-index: 1;"></div>
+      <img src="https://images.unsplash.com/photo-1721222204632-bf9abe6f023f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFsaSUyMHZpbGxhfGVufDB8fDB8fHww" alt="Bali Luxury Villa" class="w-100 h-100 object-fit-cover">
+    </div>
+  </div>
+
+  <div class="hero-content container-xl text-center text-white position-relative z-3">
+    <div class="hero-subtitle text-uppercase fw-bold mb-3" style="letter-spacing: 3px; color: #d4af37;">From Belgium to Bali</div>
+    <h1 class="hero-title display-1 fw-bold mb-3" style="font-family: 'Playfair Display', serif; line-height: 1.1; letter-spacing: -2px;">Co-Ownership Legal<br>AI Navigator</h1>
+    <p class="hero-description fs-4 fw-bold mb-5 mx-auto" style="max-width: 700px; line-height: 1.5; font-weight:600;">Your AI-Powered Assistant for Shared Properties</p>
+
+    <div class="hero-cta-group d-flex justify-content-center align-items-center gap-3">
+      <%= link_to "Start Your Journey", "#start", class: "cta-primary btn btn-light text-dark px-5 py-3 rounded-pill fw-semibold fs-5 d-inline-flex align-items-center gap-2" %>
+      <%= link_to "Explore Features", "#features", class: "cta-secondary btn btn-outline-light px-5 py-3 rounded-pill fw-semibold fs-5 d-inline-flex align-items-center gap-2" %>
+    </div>
+  </div>
+  <div class="location-badge position-absolute bottom-0 start-50 translate-middle-x mb-5 bg-white bg-opacity-10 backdrop-blur-lg px-4 py-3 rounded-pill text-white fs-6 fw-medium d-flex align-items-center gap-2" style="border: 1px solid rgba(255, 255, 255, 0.2);">
+    <i class="fas fa-globe"></i>
+    Global Co-Ownership Solutions
+  </div>
+</section>
+
+<!-- Features Section (Navigate Every Challenge - sleeker cards with cooler legal images) -->
+<section class="features py-5" id="features">
+  <div class="container-xl">
+
+    <div class="section-header text-center mb-5">
+      <div class="text-uppercase fw-semibold mb-2"
+           style="letter-spacing: 2px; color:#1e5799;">
+        Intelligent Solutions
+      </div>
+
+      <h2 class="display-4 fw-bold mb-3"
+          style="font-family:'Playfair Display', serif; color:#0a0a0a;">
+        Navigate Every Challenge
+      </h2>
+
+      <p class="fs-5 text-muted mx-auto"
+         style="max-width:700px; line-height:1.7;">
+        From property disputes to renovation planning, our AI helps you make informed decisions with clarity.
+      </p>
+    </div>
+
+    <!-- ✨ REPLACE your .row g-4 block with this: -->
+    <div class="d-flex flex-wrap justify-content-center gap-4">
+
+      <div class="square-card card-wrapper">
+        <img class="square-img" src="https://images.unsplash.com/photo-1521791055366-0d553872125f?fm=jpg&q=60&w=3000">
+        <div class="overlay-gradient p-3 d-flex flex-column justify-content-end">
+          <div class="fs-3 text-warning mb-1"><i class="fas fa-hand-holding-usd"></i></div>
+          <h3 class="fw-bold text-white mb-1" style="font-family:'Playfair Display', serif;">Sell Shares Stress-Free</h3>
+          <p class="text-light small mb-0">Check if you can offload your portion without full consensus, spotting risks like court-forced sales…</p>
+        </div>
+      </div>
+
+      <div class="square-card card-wrapper">
+        <img class="square-img" src="https://images.unsplash.com/photo-1554224154-22dec7ec8818?fm=jpg&q=60&w=3000">
+        <div class="overlay-gradient p-3 d-flex flex-column justify-content-end">
+          <div class="fs-3 text-warning mb-1"><i class="fas fa-balance-scale"></i></div>
+          <h3 class="fw-bold text-white mb-1" style="font-family:'Playfair Display', serif;">Split Costs Fairly</h3>
+          <p class="text-light small mb-0">Analyze agreements to divvy up maintenance, taxes, or repairs equitably…</p>
+        </div>
+      </div>
+
+      <div class="square-card card-wrapper">
+        <img class="square-img" src="https://plus.unsplash.com/premium_photo-1698084059560-9a53de7b816b?fm=jpg&q=60&w=3000">
+        <div class="overlay-gradient p-3 d-flex flex-column justify-content-end">
+          <div class="fs-3 text-warning mb-1"><i class="fas fa-gavel"></i></div>
+          <h3 class="fw-bold text-white mb-1" style="font-family:'Playfair Display', serif;">Resolve Disputes Swiftly</h3>
+          <p class="text-light small mb-0">Get steps to handle access issues or unauthorized rentals per local laws…</p>
+        </div>
+      </div>
+
+      <div class="square-card card-wrapper">
+        <img class="square-img" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?fm=jpg&q=60&w=3000">
+        <div class="overlay-gradient p-3 d-flex flex-column justify-content-end">
+          <div class="fs-3 text-warning mb-1"><i class="fas fa-tools"></i></div>
+          <h3 class="fw-bold text-white mb-1" style="font-family:'Playfair Display', serif;">Plan Renovations Legally</h3>
+          <p class="text-light small mb-0">Verify permits and co-owner approvals needed for upgrades…</p>
+        </div>
+      </div>
+
+      <div class="square-card card-wrapper">
+        <img class="square-img" src="https://images.unsplash.com/photo-1661337661574-egwydPXEPvs?fm=jpg&q=60&w=3000">
+        <div class="overlay-gradient p-3 d-flex flex-column justify-content-end">
+          <div class="fs-3 text-warning mb-1"><i class="fas fa-user-plus"></i></div>
+          <h3 class="fw-bold text-white mb-1" style="font-family:'Playfair Display', serif;">Add or Remove Owners</h3>
+          <p class="text-light small mb-0">Guide on modifying ownership structures legally, from adding family to removing partners…</p>
+        </div>
+      </div>
+
+      <div class="square-card card-wrapper">
+        <img class="square-img" src="https://images.unsplash.com/photo-1661337661574-a9XZBC5HxsI?fm=jpg&q=60&w=3000">
+        <div class="overlay-gradient p-3 d-flex flex-column justify-content-end">
+          <div class="fs-3 text-warning mb-1"><i class="fas fa-money-check"></i></div>
+          <h3 class="fw-bold text-white mb-1" style="font-family:'Playfair Display', serif;">Handle Financing & Mortgages</h3>
+          <p class="text-light small mb-0">Navigate joint loans, shared debts, and individual contributions in co-ownership…</p>
+        </div>
+      </div>
+
+    </div>
+    <!-- ✨ END replacement block -->
+
+  </div>
+</section>
+
+
+
+<!-- How It Works Section (adjusted background for better contrast) -->
+<section class="how-it-works py-5 text-white" style="background:#1a1a1a;">
+  <div class="container-xl">
+    <div class="section-header text-center mb-5">
+      <div class="section-label text-uppercase fw-semibold mb-2" style="letter-spacing: 2px; color: #d4af37;">Simple & Powerful</div>
+      <h2 class="section-title display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">How It Works</h2>
+      <p class="section-description fs-5 opacity-100 mx-auto" style="max-width: 700px; line-height: 1.7;">
+        Three simple steps to navigate complex co-ownership legal challenges with AI-powered precision.
+      </p>
+    </div>
+    <div class="steps-container row g-5 justify-content-center">
+      <div class="col-md-4">
+        <div class="step text-center p-4">
+          <div class="step-number rounded-circle mx-auto mb-4 fw-bold fs-1 text-white d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, #4a90e2, #9062e2, #d4af37); font-family: 'Playfair Display', serif;">1</div>
+          <h3 class="step-title fs-4 fw-semibold mb-2">Upload Your Documents</h3>
+          <p class="step-description opacity-100">Securely upload co-ownership agreements, property deeds, and relevant documentation. Our AI analyzes every clause with legal precision.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="step text-center p-4">
+          <div class="step-number rounded-circle mx-auto mb-4 fw-bold fs-1 text-white d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, #4a90e2, #9062e2, #d4af37); font-family: 'Playfair Display', serif;">2</div>
+          <h3 class="step-title fs-4 fw-semibold mb-2">Get AI Insights</h3>
+          <p class="step-description opacity-100">Receive instant analysis on your rights, obligations, and potential risks. Our AI references local laws from Bali to Belgium and beyond.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="step text-center p-4">
+          <div class="step-number rounded-circle mx-auto mb-4 fw-bold fs-1 text-white d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, #4a90e2, #9062e2, #d4af37); font-family: 'Playfair Display', serif;">3</div>
+          <h3 class="step-title fs-4 fw-semibold mb-2">Take Action Confidently</h3>
+          <p class="step-description opacity-100">Make informed decisions with clear, actionable guidance. Export reports, share with co-owners, or consult with legal professionals.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5 text-center text-white" id="start" style="background: linear-gradient(135deg, #4a90e2 0%, #2c5aa0 100%);">
+  <div class="container-xl">
+    <h2 class="cta-section-title display-3 fw-bold mb-3" style="font-family: 'Playfair Display', serif; letter-spacing: -1px;">Ready to Navigate Your Co-Ownership Journey?</h2>
+    <p class="cta-section-description fs-4 mb-5 opacity-75">Join thousands of property owners making smarter legal decisions with AI.</p>
+    <%= link_to "Start Free Trial", "#", class: "cta-large btn btn-light text-primary px-5 py-3 rounded-pill fw-bold fs-5 d-inline-flex align-items-center gap-3" %>
+  </div>
+</section>
