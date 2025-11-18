@@ -77,3 +77,9 @@ end
 gem 'ruby-openai'
 
 gem "aws-sdk-s3" # documents....
+
+gem "ruby_llm"
+
+gem "kramdown"
+gem "rouge"
+gem "kramdown-parser-gfm"

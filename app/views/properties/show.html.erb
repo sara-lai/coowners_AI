@@ -1,2 +1,28 @@
-<h1>Properties#show</h1>
-<p>Find me in app/views/properties/show.html.erb</p>
+
+
+<!-- app/views/challenges/show.html.erb -->
+<div style='display:flex;justify-content:center;'>
+<div style='display:flex;flex-direction:column;gap:40px;max-width:800px;'>
+  <h3>Property</h3>
+  <div>
+    <h1><%= @property.name %></h1>
+    <%= @property.address %>
+  </div>
+
+  <h2>Chats</h2>
+  <div class="mb-4">
+    <% if @property.chats.any? %>
+      <ul>
+        <% @property.chats.each do |chat| %>
+          <li><%= link_to chat.title, chat_path(chat) %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      There are no chats yet.
+    <% end %>
+  </div>
+
+
+  <%= button_to "New chat", property_chats_path(@property), class: "btn btn-primary" %>
+</div>
+</div>

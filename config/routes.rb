@@ -10,7 +10,16 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  resources :properties # will use all
+  #resources :properties # will use all
 
-   get '/dashboard', to: 'properties#index', as: :dashboard # or a separate dashboard controller?
+  get '/dashboard', to: 'properties#index', as: :dashboard # or a separate dashboard controller?
+
+  resources :properties do
+    resources :chats, only: [:create]
+  end
+
+  resources :chats, only: :show do
+    resources :messages, only: [:create]
+  end
+
 end
