@@ -13,19 +13,33 @@ class MessagesController < ApplicationController
 
     if @message.save
       # todo - ruby-openai gem instead -> stateless Assistants API instead of this
-      ruby_llm_chat = RubyLLM.chat
-      response = ruby_llm_chat.with_instructions(instructions).ask(@message.content)
-      Message.create(role: "assistant", content: response.content, chat: @chat)
+      @ruby_llm_chat = RubyLLM.chat
+      build_conversation_history
+      response = @ruby_llm_chat.with_instructions(instructions).ask(@message.content)
+      @chat.messages.create(role: "assistant", content: response.content)
 
       @chat.generate_title_from_first_message
 
-      redirect_to chat_messages_path(@chat)
+      respond_to do |format|
+        format.turbo_stream # renders `app/views/messages/create.turbo_stream.erb`
+        format.html { redirect_to chat_path(@chat) }
+      end
     else
-      render "chats/show", status: :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form", locals: { chat: @chat, message: @message }) }
+        # ^ so
+        format.html { render "chats/show", status: :unprocessable_entity }
+      end
     end
   end
 
   private
+
+  def build_conversation_history
+    @chat.messages.each do |message|
+      @ruby_llm_chat.add_message(message)
+    end
+  end
 
   def property_context
     # todo swap out with documents .....
