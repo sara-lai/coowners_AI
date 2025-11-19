@@ -1,16 +1,22 @@
 <% if @properties.present? %>
 
-  <div style='display:flex; justify-content:center;padding:20px;'>
+  <div style='display:flex; justify-content:center; padding:20px; max-width:1200px; width:100%; margin:0 auto;'>
 
-    <div>
+    <div width='100%'>
 
       <h1 style='margin-bottom:40px'>Your Properties (<%= @properties.length %>)</h1>
 
-      <div style='display:flex; gap:20px; flex-wrap: wrap;'>
+      <div style="display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+            justify-items: center;
+            max-width: 1100px;
+            margin: 0 auto;">
+
 
         <% @properties.each do |property| %>
 
-          <div class='card mb-3 shadow-sm rounded' style='max-width:440px;'>
+          <div class='card mb-3 shadow-sm rounded' style='width:100%; max-width:440px;'>
 
             <div class='card-body bg-light' style='min-height:400px;'>
 
@@ -44,7 +50,7 @@
 
             </div>
 
-            <div class='card-footer bg-white' style='text-align:center;>
+            <div class='card-footer bg-white' style='text-align:center;'>
               <div style='display:flex; gap:10px; '>
               <%= button_to property_chats_path(property), class: 'btn' do %>
                 <i class="fas fa-robot"></i> Launch AI Assistant
