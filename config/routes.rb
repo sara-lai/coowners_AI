@@ -22,4 +22,6 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
+  get '/launch/:id', to: 'chats#launch', as: :launch
+
 end

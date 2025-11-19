@@ -1,4 +1,7 @@
-<%= simple_form_for [chat, message] do |f| %>
-    <%= f.input :content, label: "Ask a question", required: true, placeholder: "Tell me about my property" %>
-    <%= f.button :submit, 'Ask LLM', class: 'btn btn-primary' %>
-<% end %>
+<div style='width:500px;'>
+  <%= simple_form_for [chat, message] do |f| %>
+      <%= f.input :content, label: "Interact with AI Assistant", required: true, placeholder: "Your co-ownership query here", input_html: { rows: 5, style: "height: 150px;" } %>
+      <%= f.input :file, as: :file, label: "Upload a file (PDF, image, or audio)" %>
+      <%= f.button :submit, "Send", class: 'btn btn-primary' %>
+  <% end %>
+</div>

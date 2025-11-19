@@ -19,12 +19,12 @@
     <%= render "shared/navbar" %>
     <div class="container-fluid">
       <div class="row" data-controller="toggle">
-        <nav class="col-md-2 sidebar pt-3" data-toggle-target="hideable">
+        <nav class="col-md-2 sidebar" data-toggle-target="hideable" style='padding:0 !important;'>
 
             <%= render "shared/sidenav", properties: @properties %>
 
         </nav>
-        <div class="col-md-10 my-4">
+        <div class="col-md-10 my-4" style='position:relative;'>
           <%= render "shared/flashes" %>
 
           <%= link_to "#", class: "d-none nav-link text-dark", data: {action: "click->toggle#call", toggle_target: "show"} do %>

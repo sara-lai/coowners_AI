@@ -1,8 +1,14 @@
-<%= link_to "← #{@chat.property.name}", property_path(@chat.property) %>
+<%# todo - ideally different UI for launching first session? %>
+
+<div style='position:absolute; right: 20px; top: 0;'>
+  <%= link_to "← #{@chat.property.name}", property_path(@chat.property) %>
+</div>
 
 <div style='display:flex; justify-content:center'>
-  <div style='max-width:800px;'>
-    <h1 id="chat_title"><%= @chat.title %></h1>
+  <div style='max-width:800px; padding:20px;'>
+    <h1 id="chat_title" class='mb-4'>
+      <%= @chat.title %>
+    </h1>
 
     <div id="messages">
       <%= render "messages/messages", messages: @chat.messages %>
