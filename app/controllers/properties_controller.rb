@@ -41,6 +41,6 @@ class PropertiesController < ApplicationController
   private
 
   def property_params
-    params.require(:property).permit(:name, :address, :jurisdiction, documents: []) #odd syntax for the attached documents...
+    params.require(:property).permit(:name, :address, :jurisdiction, :photo, documents: [])
   end
 end

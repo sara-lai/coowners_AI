@@ -83,3 +83,7 @@ gem "ruby_llm"
 gem "kramdown"
 gem "rouge"
 gem "kramdown-parser-gfm"
+
+
+gem "cloudinary"
+gem "image_processing", "~> 1.2"

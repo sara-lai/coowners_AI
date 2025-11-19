@@ -1,32 +1,21 @@
-<%= link_to "← #{@chat.property.name}", property_path(@chat.property) %>
+<%# todo - ideally different UI for launching first session? %>
+
+<div style='position:absolute; right: 20px; top: 0;'>
+  <%= link_to "← #{@chat.property.name}", property_path(@chat.property) %>
+</div>
 
 <div style='display:flex; justify-content:center'>
-  <div style='max-width:800px;'>
-    <h1 id="chat_title"><%= @chat.title %></h1>
+  <div style='max-width:800px; padding:20px;'>
+    <h1 id="chat_title" class='mb-4'>
+      <%= @chat.title %>
+    </h1>
 
     <div id="messages">
-      <% @chat.messages.each do |message| %>
-        <% if message.role == "user" %>
-          <div class="d-flex justify-content-end mb-2">
-            <div class="bg-white px-3 pb-0 pt-3 rounded-pill">
-              <%= raw(render_markdown(message.content)) %>
-            </div>
-          </div>
-        <% elsif message.role == "assistant" %>
-          <div class="d-flex justify-content-start mb-5">
-            <div class="px-3 pb-0 pt-3">
-              <%= raw(render_markdown(message.content)) %>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
+      <%= render "messages/messages", messages: @chat.messages %>
     </div>
 
     <div id="new_message_container">
-      <%= simple_form_for [@chat, @message] do |f| %>
-        <%= f.input :content, label: "Ask a question", required: true, placeholder: "Tell me about my property" %>
-        <%= f.button :submit, 'Ask LLM', class: 'btn btn-primary' %>
-      <% end %>
+      <%= render "messages/form", chat: @chat, message: @message %>
     </div>
   </div>
 </div>

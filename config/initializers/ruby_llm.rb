@@ -6,4 +6,5 @@ RubyLLM.configure do |config|
   # Add keys ONLY for providers you intend to use
   # config.anthropic_api_key = ENV.fetch('ANTHROPIC_API_KEY', nil)
   # ... see Configuration guide for all options ...
+  config.gemini_api_key = ENV["GEMINI_API_KEY"]
 end

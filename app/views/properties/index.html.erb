@@ -4,22 +4,30 @@
 
     <div>
 
-      <h1 style='margin-bottom:40px'>Your Owned Properties (<%= @properties.length %>)</h1>
+      <h1 style='margin-bottom:40px'>Your Properties (<%= @properties.length %>)</h1>
 
       <div style='display:flex; gap:20px; flex-wrap: wrap;'>
 
         <% @properties.each do |property| %>
 
           <div class='card mb-3 shadow-sm rounded' style='max-width:440px;'>
+
             <div class='card-body bg-light' style='min-height:400px;'>
-              <p style='font-size:1.5rem;'><%= property.name %></p>
-              <p><%= property.address %></p>
-              <p><%= property.jurisdiction %></p>
 
-              <h3> Your Documents </h3>
+              <%= link_to property_path(property), class: "text-decoration-none text-reset" do %>
 
+                <%# https://uikit.lewagon.com/documentation#card_category %>
+                <div class="card-category mb-4" style="height:260px; background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= property.photo.attached? ? cl_image_path(property.photo.key, height: 300, crop: :fill) : asset_path("default-placeholder.png") %>')">
+                  <p style='font-size:1.5rem;'><%= property.name %></p>
+                </div>
+
+                <p><%= property.address %></p>
+
+              <% end %>
+
+              <p style='font-size:1.2rem; letter-spacing:1px;'>Documents </p>
               <% if property.documents.attached? %>
-                <div style='display:flex; flex-direction:column; gap:20px;' >
+                <div style='display:flex; flex-direction:column; gap:10px;' >
                   <% property.documents.each do |document| %>
                     <div>
                       <%= link_to document.filename.to_s, url_for(document), target: "_blank" %>
@@ -30,17 +38,15 @@
                 <p>No documents uploaded yet.</p>
               <% end %>
 
+              <%= link_to edit_property_path(property), class: 'btn mt-2' do %>
+                <i class="fas fa-edit"></i> Add Documents
+              <% end %>
+
             </div>
 
-            <div class='card-footer bg-white'>
-              <div style='display:flex; gap:10px;'>
-                <%= link_to property_path(property) do %>
-                  <i class="fas fa-file-upload"></i> Show Property/Chats
-                <% end %>
-              <%= link_to edit_property_path(property) do %>
-                <i class="fas fa-edit"></i> Add More Documents
-              <% end %>
-              <%= link_to "#todo" do %>
+            <div class='card-footer bg-white' style='text-align:center;>
+              <div style='display:flex; gap:10px; '>
+              <%= button_to property_chats_path(property), class: 'btn' do %>
                 <i class="fas fa-robot"></i> Launch AI Assistant
               <% end %>
               </div>

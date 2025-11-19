@@ -5,6 +5,11 @@ class ChatsController < ApplicationController
     @message = Message.new
   end
 
+  def launch
+    @chat    = current_user.chats.find(params[:id])
+    @message = Message.new
+  end
+
   def create
     @property = Property.find(params[:property_id])
 
@@ -14,9 +19,9 @@ class ChatsController < ApplicationController
     @chat.user = current_user
 
     if @chat.save
-      redirect_to chat_path(@chat)
+      redirect_to launch_path(@chat)
     else
-      render "properties/show"
+      render "properties/launch"
     end
   end
 

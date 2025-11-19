@@ -1,28 +1,57 @@
 
 
-<!-- app/views/challenges/show.html.erb -->
-<div style='display:flex;justify-content:center;'>
-<div style='display:flex;flex-direction:column;gap:40px;max-width:800px;'>
-  <h3>Property</h3>
-  <div>
-    <h1><%= @property.name %></h1>
-    <%= @property.address %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <%# https://uikit.lewagon.com/documentation#card_category %>
+      <div class="card-category mb-4" style="height: 400px;width: 100%;background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= @property.photo.attached? ? cl_image_path(@property.photo.key, height: 300, crop: :fill) : asset_path("default-placeholder.png") %>')">
+        <p style='font-size:2.5rem;'><%= @property.name %></p>
+      </div>
+
+      <p><%= @property.address %></p>
+      <p>Property jurisdction: <%= @property.jurisdiction %></p>
+
+      <div class='mb-4'></div>
+
+      <div style='font-size:1.2rem; letter-spacing:1px;'>
+        Documents
+      </div>
+      <% if @property.documents.attached? %>
+        <div style='display:flex; flex-direction:column; gap:10px;' >
+          <% @property.documents.each do |document| %>
+            <div>
+              <%= link_to document.filename.to_s, url_for(document), target: "_blank" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%= link_to edit_property_path(@property), class: 'btn mt-2' do %>
+        <i class="fas fa-edit"></i> Add Documents
+      <% end %>
+    </div>
+
+    <div class="col-md-6">
+
+      <div style='display:flex;justify-content:center;align-items:center;height:100%;'>
+        <div style='padding:40px'>
+          <div style='font-size:1.8rem;margin-bottom:20px;'>Sessions</div>
+          <div class="mb-4">
+            <% if @property.chats.any? %>
+              <div style='display:flex;flex-direction:column;gap:7px;'>
+                <% @property.chats.each do |chat| %>
+                  <div><%= link_to chat.title, chat_path(chat) %></div>
+                <% end %>
+              </div>
+            <% else %>
+              There are no chats yet.
+            <% end %>
+          </div>
+          <%= button_to "New AI Session", property_chats_path(@property), class: "btn btn-primary" %>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <h2>Chats</h2>
-  <div class="mb-4">
-    <% if @property.chats.any? %>
-      <ul>
-        <% @property.chats.each do |chat| %>
-          <li><%= link_to chat.title, chat_path(chat) %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      There are no chats yet.
-    <% end %>
-  </div>
-
-
-  <%= button_to "New chat", property_chats_path(@property), class: "btn btn-primary" %>
-</div>
 </div>
