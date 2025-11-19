@@ -27,9 +27,16 @@ class MessagesController < ApplicationController
       @chat.messages.create(role: "assistant", content: @response.content)
       @chat.generate_title_from_first_message
 
+
       respond_to do |format|
-        format.turbo_stream # renders `app/views/messages/create.turbo_stream.erb`
-        format.html { redirect_to chat_path(@chat) }
+        # working on bug because i introduced a "launch chat" page, needs to move to show....
+        if @chat.messages.count == 2 # hacky lol, means chat just started....
+          format.html { redirect_to chat_path(@chat) }
+          format.turbo_stream { redirect_to chat_path(@chat) } # full redirect
+        else
+          format.turbo_stream
+          format.html { redirect_to chat_path(@chat) }
+        end
       end
     else
       respond_to do |format|
