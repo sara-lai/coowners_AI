@@ -87,3 +87,5 @@ gem "kramdown-parser-gfm"
 
 gem "cloudinary"
 gem "image_processing", "~> 1.2"
+
+gem "openssl", "~> 3.3.1" # solves some SSL bugs?
