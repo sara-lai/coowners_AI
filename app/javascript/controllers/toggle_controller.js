@@ -4,6 +4,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["hideable", "show"]
 
+  // per Rob should use toggle
   call(event) {
     event.preventDefault()
     if (this.hideableTarget.classList.contains("d-none")) {

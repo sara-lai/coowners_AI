@@ -1,8 +1,10 @@
 class MessagesController < ApplicationController
   SYSTEM_PROMPT = "You are an expert paralegal on property co-ownership"
 
-  # maybe: the property can have its own speific system prompt potentially....
-  # todo - ruby-openai gem instead -> stateless Assistants API instead of this
+  #assistants API.....
+  # using ruby-openai, not openai-ruby lol
+  #https://github.com/alexrudall/ruby-openai?tab=readme-ov-file#assistants
+  #https://github.com/openai/openai-ruby
 
   def create
     @chat = current_user.chats.find(params[:chat_id])
@@ -13,24 +15,23 @@ class MessagesController < ApplicationController
     @message.role = "user"
 
     if @message.save
-      # changing to use more models/ more media types
-      # @ruby_llm_chat = RubyLLM.chat
-      # build_conversation_history
-      # response = @ruby_llm_chat.with_instructions(instructions).ask(@message.content)
 
-      if @message.file.attached?
-        process_file(@message.file) # send question w/ file to the appropriate model
-      else
-        send_question # send question to the model
-      end
+      # the heavy lifter, see method below for documentation....
+      process_with_openai_gem
 
-      @chat.messages.create(role: "assistant", content: @response.content)
       @chat.generate_title_from_first_message
 
+      # not using thsi with assistants api:
+      # if @message.file.attached?
+      #   process_file(@message.file) # send question w/ file to the appropriate model
+      # else
+      #   send_question # send question to the model
+      # end
+      # @chat.messages.create(role: "assistant", content: @response.content)
+      # @chat.generate_title_from_first_message
 
       respond_to do |format|
-        # working on bug because i introduced a "launch chat" page, needs to move to show....
-        if @chat.messages.count == 2 # hacky lol, means chat just started....
+        if @chat.messages.count == 2 # hacky lol, means chat just started, because of "launch" page, need to redirect
           format.html { redirect_to chat_path(@chat) }
           format.turbo_stream { redirect_to chat_path(@chat) } # full redirect
         else
@@ -38,10 +39,10 @@ class MessagesController < ApplicationController
           format.html { redirect_to chat_path(@chat) }
         end
       end
+
     else
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.replace("new_message", partial: "messages/form", locals: { chat: @chat, message: @message }) }
-        # ^ so
         format.html { render "chats/show", status: :unprocessable_entity }
       end
     end
@@ -50,7 +51,9 @@ class MessagesController < ApplicationController
   private
 
   def process_file(file)
+    # basically not using anymore.... keeping as reference
     if file.content_type == "application/pdf"
+      # testing the openAI assistants API.....
       send_question(model: "gemini-2.0-flash", with: { pdf: @message.file.url })
     elsif file.image?
       send_question(model: "gpt-4o", with: { image: @message.file.url })
@@ -93,5 +96,76 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:content, :file)
+  end
+
+
+  # using the assistants API
+  # main difference w/ rubyllm is it is stateful / uses a thread_id, you dont copy everything every time
+  # main things:
+  # openai_client.files.upload
+  # openai_client.messages.create
+  # openai_client.runs.create
+  # openai_client.runs.retrieve (it recommends "polling" to retreive response)
+
+  def process_with_openai_gem
+
+    thread_id = @chat.thread_id
+
+    # handling attachments
+    file_id = nil
+    if @message.file.attached?
+      if @message.file.content_type == "application/pdf"
+
+        # GPT says create temp_file before uploading the pdf
+        temp_file = Tempfile.new(["document", ".pdf"])
+        temp_file.binmode
+        temp_file.write(@message.file.download)
+        temp_file.rewind
+
+        response = openai_client.files.upload(parameters: { file: temp_file.path, purpose: "assistants" })
+        file_id = response["id"]
+        temp_file.unlink
+      elsif @message.file.image?
+        # todo
+      end
+    end
+
+    # building the client.messages.create (with attachment, if any)
+    message_params = { role: "user", content: @message.content }
+    if file_id
+      message_params[:attachments] = [{ file_id: file_id, tools: [{ type: "file_search" }] }]
+    end
+    openai_client.messages.create(thread_id: thread_id, parameters: message_params)
+
+
+    # running the assistant & "polling" to get result
+    run = openai_client.runs.create(
+      thread_id: thread_id,
+      parameters: {
+        assistant_id: ASSISTANT_ID, # from initializer
+        additional_instructions: property_context # necessary? only sending property name lol
+      }
+    )
+    run_id = run["id"]
+
+    status = nil
+    until %w[completed failed].include?(status)
+      # todo - no idea how long requests might take [if scanning many documents]..... maybe source of errors, Heroku?
+      sleep 1
+      run_status = openai_client.runs.retrieve(thread_id: thread_id, id: run_id)
+      status = run_status["status"]
+    end
+
+    if status == "completed"
+      # get latest message.... odd syntax
+      # dig -> "safely digs into the nested structure without errors if keys are missing"
+      messages = openai_client.messages.list(thread_id: thread_id, parameters: { order: "desc", limit: 1 })
+      assistant_content = messages["data"].first.dig("content", 0, "text", "value")
+
+      @chat.messages.create!(role: "assistant", content: assistant_content)
+    else
+      raise "Run failed: #{run_status['error']}"
+    end
+
   end
 end

@@ -1,6 +1,6 @@
 <div style='display:flex; justify-content:center'>
   <div style='max-width:800px; padding:20px;'>
-    <h3 class='mb-4'>Launch AI Session</h3>
+    <h4 class='mb-4'>Launch AI Session for <%= @chat.property.name %></h4>
     <div id="new_message_container">
       <%= render "messages/form", chat: @chat, message: @message %>
     </div>
