@@ -8,6 +8,7 @@ class PropertiesController < ApplicationController
 
   def show
     @property = current_user.properties.find(params[:id])
+    @chats = @property.chats.order(created_at: :desc)
   end
 
   def new
@@ -33,6 +34,11 @@ class PropertiesController < ApplicationController
   end
 
   def update
+    @property = current_user.properties.find(params[:id])
+    if params[:property][:documents].present?
+      @property.documents.attach(params[:property][:documents])
+      redirect_to property_path(@property), notice: "Successfully added."
+    end
   end
 
   def destroy

@@ -256,3 +256,113 @@ body {
     }
   }
 }
+
+
+
+/* Core button container */
+.md-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.4rem;
+  border-radius: 28px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: .3px;
+  text-decoration: none !important;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border: none;
+}
+
+/* Contained (filled) */
+.md-contained {
+  background: #4f46e5; /* Indigo 600 */
+  color: white !important;
+  box-shadow: 0 2px 5px rgba(79, 70, 229, 0.25);
+}
+.md-contained:hover {
+  background: #4338ca; /* Indigo 700 */
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+}
+
+/* Outlined */
+.md-outlined {
+  color: #4f46e5 !important;
+  border: 2px solid #4f46e5;
+}
+.md-outlined:hover {
+  background: rgba(79, 70, 229, 0.06);
+}
+
+/* Text button (Material text style) */
+.md-text {
+  color: #4f46e5 !important;
+  padding: 0.4rem 0.6rem;
+}
+.md-text:hover {
+  background: rgba(79, 70, 229, 0.08);
+  border-radius: 20px;
+}
+
+.step-number {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #4a90e2, #9062e2, #d4af37);
+  border-radius: 50%;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  font-size: 2.5rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-align: center;
+}
+
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0) translateX(-50%);
+      }
+      50% {
+        transform: translateY(-10px) translateX(-50%);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
