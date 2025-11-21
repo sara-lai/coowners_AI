@@ -1,4 +1,4 @@
-<%# todo - ideally different UI for launching first session? %>
+<%= turbo_stream_from @chat %>
 
 <div style='position:absolute; right: 20px; top: 0;'>
   <%= link_to "← #{@chat.property.name}", property_path(@chat.property) %>

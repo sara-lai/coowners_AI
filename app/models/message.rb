@@ -2,6 +2,8 @@ class Message < ApplicationRecord
   MAX_USER_MESSAGES = 10
   MAX_FILE_SIZE_MB = 10
 
+  after_create_commit :broadcast_append_to_chat
+
   belongs_to :chat
 
   validate :file_size_limit
@@ -24,4 +26,9 @@ class Message < ApplicationRecord
       errors.add(:content, "You can only send #{MAX_USER_MESSAGES} messages per chat.")
     end
   end
+
+  def broadcast_append_to_chat
+    broadcast_append_to chat, target: "messages", partial: "messages/message", locals: { message: self }
+  end
+
 end
