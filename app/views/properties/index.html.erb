@@ -4,8 +4,6 @@
 
     <div width='100%'>
 
-      <h1 style='margin-bottom:40px'>Your Properties (<%= @properties.length %>)</h1>
-
       <div style="display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 24px;
@@ -13,49 +11,44 @@
             max-width: 1100px;
             margin: 0 auto;">
 
-
         <% @properties.each do |property| %>
 
           <div class='card mb-3 shadow-sm rounded' style='width:100%; max-width:440px;'>
 
-            <div class='card-body bg-light' style='min-height:400px;'>
-
               <%= link_to property_path(property), class: "text-decoration-none text-reset" do %>
 
-                <%# https://uikit.lewagon.com/documentation#card_category %>
-                <div class="card-category mb-4" style="height:260px; background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= property.photo.attached? ? cl_image_path(property.photo.key, height: 300, crop: :fill) : asset_path("default-placeholder.png") %>')">
-                  <p style='font-size:1.5rem;'><%= property.name %></p>
+              <%# https://uikit.lewagon.com/documentation#card_category %>
+              <div class="card-img-top position-relative" style="height:260px; background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= property.photo.attached? ? cl_image_path(property.photo.key, height: 300, crop: :fill) : asset_path("default-placeholder.png") %>'); background-size:cover; background-position:center;">
+                <div class="position-absolute bottom-0 start-0 p-3 text-white">
+                  <h5 class="mb-1 fw-bold" style='font-size:1.25rem;'><%= property.name %></h5>
+                  <p class="mb-0 small"><%= property.address %></p>
                 </div>
-
-                <p><%= property.address %></p>
+              </div>
 
               <% end %>
 
-              <p style='font-size:1.2rem; letter-spacing:1px;'>Documents </p>
+              <div class='card-body' style='min-height:300px;'>
+
+              <p class="fw-medium mb-2" style='font-size:0.875rem; letter-spacing:0.5px; color:#757575;'>Documents</p>
               <% if property.documents.attached? %>
-                <div style='display:flex; flex-direction:column; gap:10px;' >
+                <div style='display:flex; flex-direction:column; gap:8px;' >
                   <% property.documents.each do |document| %>
-                    <div>
-                      <%= link_to document.filename.to_s, url_for(document), target: "_blank" %>
+                    <div class="small">
+                      <%= link_to document.filename.to_s, url_for(document), target: "_blank", class: "text-decoration-none text-primary" %>
                     </div>
                   <% end %>
                 </div>
               <% else %>
-                <p>No documents uploaded yet.</p>
-              <% end %>
-
-              <%= link_to edit_property_path(property), class: 'btn mt-2' do %>
-                <i class="fas fa-edit"></i> Add Documents
+                <p class="small text-muted">No documents uploaded yet.</p>
               <% end %>
 
             </div>
 
-            <div class='card-footer bg-white' style='text-align:center;'>
-              <div style='display:flex; gap:10px; '>
-              <%= button_to property_chats_path(property), class: 'btn' do %>
-                <i class="fas fa-robot"></i> Launch AI Assistant
+            <div class='card-footer bg-white border-top-0' style='display:flex; justify-content:center; align-items:center; padding:16px;'>
+
+              <%= button_to property_chats_path(property), class: 'btn btn-sm btn-primary rounded-pill px-3' do %>
+                <i class="fas fa-wand-magic-sparkles me-1"></i> Launch AI Assistant
               <% end %>
-              </div>
             </div>
 
           </div>

@@ -1,12 +1,65 @@
-<ul class="position-sticky sticky-top nav flex-column" style='height:100vh; background:white;'>
-  <li class="nav-item pt-3">
-    <%= link_to "#", class: "nav-link text-dark", data: { action: "click->toggle#call" } do %>
-      <i class="fa-regular fa-square-caret-left"></i>
-    <% end %>
-  </li>
-  <% properties.each do |property| %>
-    <li class="nav-item">
-      <%= link_to property.name, property_path(property), class: "nav-link text-dark" %>
+<div class="sidebar position-sticky sticky-top bg-white shadow-sm border-end" style="height:100vh; width:320px; overflow-y:auto;">
+  <ul class="nav flex-column px-3">
+
+    <li class="nav-item pt-3" style='max-width:280px;'>
+      <%= link_to "#", class: "nav-link text-dark", style: 'float:right;', data: { action: "click->toggle#call" } do %>
+        <i class="fa-regular fa-square-caret-left"></i>
+      <% end %>
     </li>
-  <% end %>
-</ul>
+
+    <li class="nav-item" style='margin-top:-20px;'>
+      <h6 class="sidebar-heading px-3 text-uppercase fw-semibold text-muted small d-flex align-items-center" style="margin-bottom:20px;">
+        <i class="fa-solid fa-house-chimney me-3"></i>
+        <span style='font-size:1rem;letter-spacing:.5px;'>
+          Properties
+        </span>
+      </h6>
+
+      <% properties && properties.each do |property| %>
+        <% if property.id %>
+          <%= link_to property_path(property),
+                      class: "nav-link sidebar-link d-flex align-items-center py-2 px-3 rounded-3 text-decoration-none #{current_page?(property_path(property)) ? 'bg-primary text-white' : 'text-dark'} mb-1" do %>
+            <i class="fa-solid fa-building <%= 'text-white' if current_page?(property_path(property)) %> me-3"></i>
+            <span class="text-truncate"><%= property.name %></span>
+          <%end %>
+        <% end %>
+      <% end %>
+    </li>
+
+    <li class="nav-item"><div class="my-3 border-top mb-4"></div></li>
+
+    <li class="nav-item">
+      <h6 class="sidebar-heading px-3 text-uppercase fw-semibold text-muted d-flex align-items-center" style="margin-bottom:20px;">
+        <i class="fa-solid fa-comment-dots me-3"></i>
+        <span style='font-size:1rem;'>
+          Recent Chats
+        </span>
+      </h6>
+
+      <% recent_chats && recent_chats.each do |chat| %>
+        <%= link_to chat_path(chat),
+                    class: "nav-link sidebar-link d-flex align-items-center py-2 px-3 rounded-3 text-decoration-none #{current_page?(chat_path(chat)) ? 'bg-primary text-white' : 'text-dark'} mb-1" do %>
+
+          <div class="me-3">
+            <i class="fa-solid fa-comment-dots text-primary"></i>
+          </div>
+
+          <div class="flex-fill text-truncate">
+            <div class="fw-semibold text-truncate">
+              <%= truncate(chat.title, length: 20) %>
+            </div>
+            <small class="text-muted text-truncate d-block">
+              <% if chat.messages.any? %>
+                <%= truncate(chat.messages.last.content, length: 26) %>
+              <% else %>
+                No messages yet
+              <% end %>
+            </small>
+          </div>
+
+        <% end %>
+      <% end %>
+    </li>
+
+  </ul>
+</div>

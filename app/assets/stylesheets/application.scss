@@ -91,3 +91,32 @@
   border-radius: 5px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
+
+
+.sidebar-link:hover:not(.bg-primary) {
+  background-color: rgba(0,0,0,.04);
+  transform: translateX(4px);
+  transition: all 0.2s ease;
+}
+.sidebar-link.bg-primary {
+  box-shadow: 0 4px 12px rgba(25,118,210,.3);
+}
+.hover-opacity-100 { transition: opacity .2s; }
+.hover-opacity-100:hover { opacity: 1 !important; }
+
+
+// Chats misc
+
+.chat-item {
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.chat-item:hover {
+  background-color: #f8f9fa;
+}
+
+.chat-item:hover .delete-icon {
+  display: block !important;
+}

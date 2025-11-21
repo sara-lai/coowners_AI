@@ -1,31 +1,41 @@
-<div class='bg-light mx-auto' style='max-width:600px;padding:20px;margin-top:20px;'>
+<div class="container">
+  <div class="card shadow rounded mx-auto" style="max-width:600px;">
 
-  <h2>New Property</h2>
+  <div class="card-img-top position-relative" style="height:240px; background-image: url('<%= asset_path("default-placeholder.png") %>'); background-size:cover; background-position:center;">
+    <div class="position-absolute top-50 start-50 translate-middle text-white text-center bg-dark bg-opacity-50 rounded px-3 py-2" style="text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
+      <h5 class="fw-bold mb-0" style="font-size:1.75rem;">
+        New Property
+      </h5>
+    </div>
+  </div>
 
-  <%= simple_form_for @property, local: true do |f| %>
-    <%= f.input :name %>
-    <%= f.input :address %>
-    <%= f.input :jurisdiction %>
+  <div class="card-body">
+    <%= simple_form_for @property, local: true do |f| %>
+      <%= f.input :name %>
+      <%= f.input :address %>
+      <%= f.input :jurisdiction %>
 
-    <%= f.input :photo, as: :file %>
+      <%= f.input :photo, as: :file %>
 
-    <div class='mb-4' style='padding:40px;'>
-      <h2> Document Uploads </h2>
-      <p> Please upload all relevant documents related to your property— share agreement, contracts, building-related— anything relevant to our creating advice </p>
+      <div class='mb-4' style='padding:40px;'>
+        <h2> Document Uploads </h2>
+        <p> Please upload all relevant documents related to your property— share agreement, contracts, building-related— anything
+          relevant that we can help you with. </p>
 
-      <div style='text-align:center;'>
-        <%= f.file_field :documents, multiple: true %>
+        <div style='text-align:center;'>
+          <%= f.file_field :documents, multiple: true, class: 'form-control rounded-pill mx-auto', style: 'max-width:400px;' %>
+        </div>
       </div>
-    </div>
 
 
 
-    <div style='display:flex; justify-content:space-between;align-items:center;margin-top:40px;'>
-      <%= f.button :submit, "Add Property!", class: "btn-primary" %>
-      <%= link_to "Go Back", properties_path %>
-    </div>
-  <% end %>
+      <div style='display:flex; justify-content:center;gap:20px;align-items:center;margin-top:40px; margin-bottom:20px;'>
+        <%= f.button :submit, "Add Property", class: "btn-primary" %>
+        <%= link_to "Go Back", properties_path %>
+      </div>
+    <% end %>
+  </div>
 
 
-
+  </div>
 </div>

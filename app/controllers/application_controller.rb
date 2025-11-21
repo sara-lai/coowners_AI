@@ -1,12 +1,25 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_properties
+  before_action :set_recent_chats
+
+  # devise erroring out
+  skip_before_action :authenticate_user!, if: :devise_controller?
+  skip_before_action :set_properties, if: :devise_controller?
+  skip_before_action :set_recent_chats, if: :devise_controller?
 
   protected
 
   def set_properties
-    # umm..... need to only get properties for current_user though?
-    @properties = Property.all
+    if current_user
+      @all_properties = current_user.properties
+    end
+  end
+
+  def set_recent_chats
+    if current_user
+      @recent_chats = Chat.where(property: current_user.properties).order(updated_at: :desc).limit(10)
+    end
   end
 
   def after_sign_in_path_for(resource)

@@ -1,0 +1,16 @@
+  <div class="modal fade" id="addDocumentsModal" tabindex="-1" aria-labelledby="addDocumentsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addDocumentsModalLabel">Add Documents</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with model: property, url: property_path(property), method: :patch, html: { multipart: true } do |f| %>
+            <%= f.file_field :documents, multiple: true, class: "form-control mb-3" %>
+            <%= f.submit "Upload", class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
