@@ -1,6 +1,6 @@
 <div style='width:500px;'>
   <%= simple_form_for [chat, message] do |f| %>
-      <%= f.input :content, label: "Interact with AI Assistant", required: true, placeholder: "Your co-ownership query here", input_html: { rows: 5, style: "height: 150px;" } %>
+      <%= f.input :content, label: "Message the AI", required: true, placeholder: "your co-ownership query here", input_html: { rows: 5, style: "height: 150px;background:white;letter-spacing:.5px;opacity:.8;" } %>
       <%= f.input :file, as: :file, label: "Upload a file (PDF, image, or audio)" %>
       <%= f.button :submit, "Send", class: 'btn btn-primary' %>
   <% end %>

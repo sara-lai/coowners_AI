@@ -16,9 +16,6 @@ class MessagesController < ApplicationController
 
     if @message.save
 
-      # the heavy lifter, see method below for documentation....
-      process_with_openai_gem
-
       @chat.generate_title_from_first_message
 
       # not using thsi with assistants api:
@@ -31,11 +28,15 @@ class MessagesController < ApplicationController
       # @chat.generate_title_from_first_message
 
       respond_to do |format|
-        if @chat.messages.count == 2 # hacky lol, means chat just started, because of "launch" page, need to redirect
+        if @chat.messages.where(role: "user").count == 1 # bc launch page handle first message differently
+          process_with_openai_gem
           format.html { redirect_to chat_path(@chat) }
           format.turbo_stream { redirect_to chat_path(@chat) } # full redirect
         else
-          format.turbo_stream
+          # immediately creaet so can stream chunks
+          @assistant_message = @chat.messages.create!(role: "assistant", content: "")
+          process_with_openai_gem
+          format.turbo_stream {}
           format.html { redirect_to chat_path(@chat) }
         end
       end
@@ -98,7 +99,6 @@ class MessagesController < ApplicationController
     params.require(:message).permit(:content, :file)
   end
 
-
   # using the assistants API
   # main difference w/ rubyllm is it is stateful / uses a thread_id, you dont copy everything every time
   # main things:
@@ -106,9 +106,7 @@ class MessagesController < ApplicationController
   # openai_client.messages.create
   # openai_client.runs.create
   # openai_client.runs.retrieve (it recommends "polling" to retreive response)
-
   def process_with_openai_gem
-
     thread_id = @chat.thread_id
 
     # handling attachments
@@ -137,35 +135,66 @@ class MessagesController < ApplicationController
     end
     openai_client.messages.create(thread_id: thread_id, parameters: message_params)
 
+    if @chat.messages.where(role: "user").count == 1  # handle chat launch differently (nc differetn page)
+      run = openai_client.runs.create(
+        thread_id: thread_id,
+        parameters: {
+          assistant_id: ASSISTANT_ID, # from initializer
+          additional_instructions: property_context
+        }
+      )
+      run_id = run["id"]
 
-    # running the assistant & "polling" to get result
-    run = openai_client.runs.create(
+      status = nil
+      until %w[completed failed].include?(status)
+        sleep 1
+        run_status = openai_client.runs.retrieve(thread_id: thread_id, id: run_id)
+        status = run_status["status"]
+      end
+
+      if status == "completed"
+        messages = openai_client.messages.list(thread_id: thread_id, parameters: { order: "desc", limit: 1 })
+        assistant_content = messages["data"].first.dig("content", 0, "text", "value")
+        @chat.messages.create!(role: "assistant", content: assistant_content)  # Appends via broadcast (but redirect happens anyway)
+      else
+        raise "Run failed: #{run_status['error']}"
+      end
+    else
+      # per lecture
+      full_content = ""
+      stream_assistant_response(thread_id) do |chunk|
+        next if chunk.blank?
+
+        full_content += chunk
+        broadcast_replace(@assistant_message.tap { |m| m.content = full_content })  # In-memory update for broadcast; no save yet
+      end
+
+      # Final save (like lecture's update)
+      @assistant_message.update!(content: full_content)
+    end
+  end
+
+   # streaming: bit different from lectures .... gem wants this approach with the proc
+  def stream_assistant_response(thread_id, &block)
+    openai_client.runs.create(
       thread_id: thread_id,
       parameters: {
-        assistant_id: ASSISTANT_ID, # from initializer
-        additional_instructions: property_context # necessary? only sending property name lol
+        assistant_id: ASSISTANT_ID,
+        additional_instructions: property_context,
+        stream: proc do |chunk, _bytesize|
+          if chunk["object"] == "thread.message.delta"
+            delta = chunk.dig("delta", "content", 0, "text", "value")
+            block.call(delta) if delta
+          elsif chunk["object"] == "thread.run.failed"
+            raise "Run failed: #{chunk.dig('last_error')}"
+          end
+        end
       }
     )
-    run_id = run["id"]
-
-    status = nil
-    until %w[completed failed].include?(status)
-      # todo - no idea how long requests might take [if scanning many documents]..... maybe source of errors, Heroku?
-      sleep 1
-      run_status = openai_client.runs.retrieve(thread_id: thread_id, id: run_id)
-      status = run_status["status"]
-    end
-
-    if status == "completed"
-      # get latest message.... odd syntax
-      # dig -> "safely digs into the nested structure without errors if keys are missing"
-      messages = openai_client.messages.list(thread_id: thread_id, parameters: { order: "desc", limit: 1 })
-      assistant_content = messages["data"].first.dig("content", 0, "text", "value")
-
-      @chat.messages.create!(role: "assistant", content: assistant_content)
-    else
-      raise "Run failed: #{run_status['error']}"
-    end
-
   end
+
+  def broadcast_replace(message)
+    Turbo::StreamsChannel.broadcast_replace_to @chat, target: helpers.dom_id(message), partial: "messages/message", locals: { message: message }
+  end
+
 end
